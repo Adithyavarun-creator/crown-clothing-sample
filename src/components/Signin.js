@@ -5,7 +5,10 @@ import './Signin.styles.scss'
 import FormInput from "./FormInput";
 import Button from "./Button";
 
-import { auth,signInWithGoogle } from "../firebase/firebase.utils";
+//import { auth,signInWithGoogle } from "../firebase/firebase.utils";
+import { googleSignInStart } from "../redux/user/user-actions";
+import { connect } from "react-redux";
+import { emailSignInStart } from "../redux/user/user-actions";
 
 class SignIn extends Component{
     constructor(props){
@@ -22,16 +25,18 @@ class SignIn extends Component{
      handlesubmit = async event=>{
         event.preventDefault()
         const {email,password} = this.state
+        const {emailSignInStart} = this.props
 
-        try{
-            await auth.signInWithEmailAndPassword(email,password)
-            this.setState({
-                email:'',
-                password:''
-            })
-        }catch(error){
-            console.log(error);
-        }
+        // try{
+        //     await auth.signInWithEmailAndPassword(email,password)
+        //     this.setState({
+        //         email:'',
+        //         password:''
+        //     })
+        // }catch(error){
+        //     console.log(error);
+        // }
+        emailSignInStart(email,password)
         }
 
          handlechange = (e)=>{
@@ -42,7 +47,7 @@ class SignIn extends Component{
             }
 
     render(){
-
+        const{googleSignInStart} = this.props;
 
         return(
             <div className="sign-in">
@@ -72,7 +77,8 @@ class SignIn extends Component{
                 Sign In
             </Button>
 
-            <Button onClick={signInWithGoogle} 
+            <Button type="button" 
+            onClick={googleSignInStart} 
             isGoogleSignIn>
                 Sign In With Google
             </Button>
@@ -83,5 +89,10 @@ class SignIn extends Component{
     }
 }
 
+const mapDispatchToProps = dispatch=>({
+    googleSignInStart:()=>dispatch(googleSignInStart()),
+    emailSignInStart:(email,password)=>dispatch(emailSignInStart({email,password}))
+})
 
-export default SignIn
+
+export default connect(null,mapDispatchToProps)(SignIn)

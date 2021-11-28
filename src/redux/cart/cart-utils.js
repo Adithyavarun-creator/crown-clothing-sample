@@ -7,7 +7,8 @@ export const AddItemToCart =(cartItems,cartItemtoAdd)=>{
             cartItem.id === cartItemtoAdd.id
              ? {
                 ...cartItem,
-                quantity:cartItem.quantity+1} 
+                quantity:cartItem.quantity+1 
+            } 
                 : cartItem  )
         }
 
@@ -33,7 +34,7 @@ export const removeitemfromcart = (cartitems,cartitemtoremove)=>{
 
             ? {
                 ...cartitem,
-                quantity:cartitem.quantity -1
+                quantity:cartitem.quantity - 1
             } : cartitem
         )
 }
